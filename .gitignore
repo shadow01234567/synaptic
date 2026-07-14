@@ -1,0 +1,5 @@
+credentials/
+google-ads.yaml
+output/
+__pycache__/
+*.pyc
