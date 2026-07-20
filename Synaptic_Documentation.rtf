@@ -1,0 +1,57 @@
+{\rtf1\ansi\deff0
+{\fonttbl{\f0 Calibri;}{\f1 Calibri Light;}}
+\f0\fs22
+
+{\f1\fs36\b Synaptic \endash  AI-Powered Google Ads Automation Tool\par}
+{\fs20\i Final Year Project Documentation\par}
+\par
+
+{\fs26\b 1. Overview\par}
+\fs22
+Synaptic is a final year university project that automates Google Ads campaign management for a single advertiser account. Instead of a business owner manually building and managing ad campaigns through the Google Ads web interface, the owner provides only a plain-text business description, and Synaptic handles the rest of the process automatically using the Google Ads API combined with AI-based reasoning and content generation.\par
+\par
+This is a non-commercial, internal academic project developed by a team of four students. It is not distributed externally, does not manage third-party or client accounts, and is not sold or offered as a public service.\par
+\par
+
+{\fs26\b 2. Project Repository\par}
+\fs22
+Source code: https://github.com/shadow01234567/synaptic\par
+\par
+
+{\fs26\b 3. System Architecture\par}
+\fs22
+Synaptic is built as a pipeline of independent automation agents that pass data to one another in sequence:\par
+\par
+{\b Phase 1 \endash  Authentication (Complete)}\par
+An OAuth2 "Installed App" client is registered in Google Cloud Console. A one-time browser login flow exchanges this client for a long-lived refresh token. Combined with a Google Ads developer token and login customer ID, the system establishes an authenticated GoogleAdsClient session and confirms access to the linked Google Ads account.\par
+\par
+{\b Phase 2 \endash  Keyword Agent (In Progress)}\par
+Takes the business owner's plain-text business description, derives candidate seed keywords, and queries the Google Ads Keyword Planner API (GenerateKeywordIdeas) to retrieve real search volume and competition data for those terms. Results are ranked and saved for use by later agents.\par
+\par
+{\b Phase 3 \endash  Competitor Agent (Planned)}\par
+Analyzes competitor advertising activity \endash  keywords targeted and ad messaging used by similar businesses \endash  to inform ad strategy before copy is written.\par
+\par
+{\b Phase 4 \endash  Ad Writing Agent (Planned)}\par
+Uses AI (Claude, Anthropic API) to generate ad headlines and descriptions based on the researched keywords and competitor insights.\par
+\par
+{\b Phase 5 \endash  Campaign Agent (Planned)}\par
+Uses the Google Ads API to create and configure the actual advertising campaign (budget, targeting, ad groups) inside the connected Google Ads account.\par
+\par
+{\b Phase 6 \endash  Reporting Agent (Planned)}\par
+Pulls campaign performance data back from the Google Ads API (clicks, spend, conversions) after the campaign is live, and summarizes results for the business owner via a dashboard.\par
+\par
+
+{\fs26\b 4. Intended Use and Audience\par}
+\fs22
+Synaptic is used internally by the development team against a single Google Ads test/development account for the purposes of this academic project. It is not intended for use by external clients or the general public. Access to the Google Ads API token is limited to the project's own internal tooling \endash  it is not shared with or embedded in any third-party application.\par
+\par
+
+{\fs26\b 5. Technology Stack\par}
+\fs22
+Python, Google Ads API (google-ads Python client library), OAuth 2.0 (google-auth-oauthlib), Anthropic Claude API (planned, for ad copy generation).\par
+\par
+
+{\fs26\b 6. Current Status\par}
+\fs22
+Authentication and connection setup (Phase 1) is complete and verified \endash  the system successfully connects to the Google Ads account and lists accessible customer resources. Keyword Agent (Phase 2) is under active development. Remaining agents are planned for subsequent development phases.\par
+}
