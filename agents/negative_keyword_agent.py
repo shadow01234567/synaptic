@@ -20,7 +20,7 @@ import sys
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agents._shared import load_json, parse_claude_json, require_api_key
+from agents._shared import AGENT_FAILURE_EXCEPTIONS, load_json, parse_claude_json, require_api_key
 
 KEYWORDS_INPUT_PATH = os.path.join("output", "keywords.json")
 OUTPUT_PATH = os.path.join("output", "negative_keywords.json")
@@ -71,7 +71,16 @@ def generate_negative_keywords(business_description, keywords):
 
 def run(business_description):
     keywords = load_json(KEYWORDS_INPUT_PATH)
-    negative_keywords = generate_negative_keywords(business_description, keywords)
+    try:
+        negative_keywords = generate_negative_keywords(business_description, keywords)
+    except AGENT_FAILURE_EXCEPTIONS:
+        # Always write the file, even when the run fails -- otherwise
+        # campaign_agent would silently attach a stale negative_keywords.json
+        # left over from a previous, unrelated business description.
+        os.makedirs("output", exist_ok=True)
+        with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+            json.dump([], f, indent=2)
+        raise
 
     os.makedirs("output", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:

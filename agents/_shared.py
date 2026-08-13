@@ -16,6 +16,7 @@ STOPWORDS = {
     "a", "an", "the", "and", "or", "for", "with", "of", "to", "is", "are",
     "that", "this", "in", "on", "at", "by", "we", "our", "your", "you",
     "it", "as", "be", "from", "will", "can", "has", "have", "who", "which",
+    "both", "also", "just", "business",
 }
 
 

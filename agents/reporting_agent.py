@@ -39,7 +39,7 @@ def generate_mock_keyword_performance(keyword):
     impressions = hash_range(keyword, 100, 5000)
     ctr = _hash_percent(f"{keyword}-ctr", 2.0, 8.0)
     clicks = round(impressions * (ctr / 100))
-    avg_cpc = round(hash_range(f"{keyword}-cpc", 20, 150) / 100, 2)
+    avg_cpc = hash_range(f"{keyword}-cpc", 8, 40)
     cost = round(clicks * avg_cpc, 2)
     conv_rate = _hash_percent(f"{keyword}-conv", 2.0, 10.0)
     conversions = round(clicks * (conv_rate / 100))
@@ -49,21 +49,22 @@ def generate_mock_keyword_performance(keyword):
         "impressions": impressions,
         "clicks": clicks,
         "ctr_percent": ctr,
-        "avg_cpc_usd": avg_cpc,
-        "cost_usd": cost,
+        "avg_cpc_pkr": avg_cpc,
+        "cost_pkr": cost,
         "conversions": conversions,
     }
 
 
 def build_report(campaign_plan):
-    ad_group = campaign_plan["ad_groups"][0]
     keyword_rows = [
-        generate_mock_keyword_performance(k["keyword"]) for k in ad_group["keywords"]
+        generate_mock_keyword_performance(k["keyword"])
+        for ad_group in campaign_plan["ad_groups"]
+        for k in ad_group["keywords"]
     ]
 
     total_impressions = sum(r["impressions"] for r in keyword_rows)
     total_clicks = sum(r["clicks"] for r in keyword_rows)
-    total_cost = round(sum(r["cost_usd"] for r in keyword_rows), 2)
+    total_cost = round(sum(r["cost_pkr"] for r in keyword_rows), 2)
     total_conversions = sum(r["conversions"] for r in keyword_rows)
 
     overall_ctr = round((total_clicks / total_impressions) * 100, 2) if total_impressions else 0
@@ -77,10 +78,10 @@ def build_report(campaign_plan):
             "impressions": total_impressions,
             "clicks": total_clicks,
             "ctr_percent": overall_ctr,
-            "cost_usd": total_cost,
+            "cost_pkr": total_cost,
             "conversions": total_conversions,
             "conversion_rate_percent": overall_conv_rate,
-            "cost_per_conversion_usd": cost_per_conversion,
+            "cost_per_conversion_pkr": cost_per_conversion,
         },
         "by_keyword": keyword_rows,
     }
@@ -106,7 +107,7 @@ def run():
     print(f"Saved performance report to {OUTPUT_PATH}")
     print(f"  Campaign: {report['campaign_name']} ({report['report_period']})")
     print(f"  Impressions: {s['impressions']}  |  Clicks: {s['clicks']}  |  CTR: {s['ctr_percent']}%")
-    print(f"  Cost: ${s['cost_usd']}  |  Conversions: {s['conversions']}  |  Cost/Conv: ${s['cost_per_conversion_usd']}")
+    print(f"  Cost: Rs.{s['cost_pkr']}  |  Conversions: {s['conversions']}  |  Cost/Conv: Rs.{s['cost_per_conversion_pkr']}")
 
     return report
 

@@ -18,7 +18,7 @@ import sys
 if __package__ in (None, ""):
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agents._shared import parse_claude_json, require_api_key
+from agents._shared import AGENT_FAILURE_EXCEPTIONS, parse_claude_json, require_api_key
 
 OUTPUT_PATH = os.path.join("output", "competitors.json")
 
@@ -87,7 +87,16 @@ def research_competitors(business_description):
 
 
 def run(business_description):
-    competitors = research_competitors(business_description)
+    try:
+        competitors = research_competitors(business_description)
+    except AGENT_FAILURE_EXCEPTIONS:
+        # Always write the file, even when the run fails -- otherwise
+        # ad_writing_agent would silently load a stale competitors.json left
+        # over from a previous, unrelated business description.
+        os.makedirs("output", exist_ok=True)
+        with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+            json.dump([], f, indent=2)
+        raise
 
     os.makedirs("output", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:

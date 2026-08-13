@@ -67,14 +67,24 @@ def keyword_score(idea):
 
 
 def extract_seed_keywords(business_description, max_seeds=15):
-    words = re.findall(r"[a-zA-Z']+", business_description.lower())
-    significant = [w for w in words if w not in STOPWORDS and len(w) > 2]
+    # Bigrams are built per sentence, not across the whole text -- otherwise the
+    # last word of one sentence gets glued to the first word of the next
+    # (e.g. "...heating service. Business name: Sucoy..." -> bogus "service name").
+    text = re.sub(r"https?://\S+", " ", business_description)
+    sentences = re.split(r"[.\n]", text)
 
-    unigrams = list(dict.fromkeys(significant))
-    bigrams = list(dict.fromkeys(
-        f"{significant[i]} {significant[i + 1]}"
-        for i in range(len(significant) - 1)
-    ))
+    unigrams = []
+    bigrams = []
+    for sentence in sentences:
+        words = re.findall(r"[a-zA-Z']+", sentence.lower())
+        significant = [w for w in words if w not in STOPWORDS and len(w) > 2]
+        for w in significant:
+            if w not in unigrams:
+                unigrams.append(w)
+        for i in range(len(significant) - 1):
+            bigram = f"{significant[i]} {significant[i + 1]}"
+            if bigram not in bigrams:
+                bigrams.append(bigram)
 
     seeds = []
     for seed in bigrams + unigrams:
@@ -188,17 +198,20 @@ def run(business_description, use_google_ads=False):
             ideas = fetch_keyword_ideas_google_ads(seeds)
         except GoogleAdsException as ex:
             print(f"Google Ads API error: {ex}")
-            return []
+            ideas = []
     else:
         try:
             ideas = fetch_keyword_ideas_google_trends(seeds)
         except Exception as e:
             print(f"Google Trends request failed: {e}")
             print("Google sometimes rate-limits pytrends -- try again shortly.")
-            return []
+            ideas = []
 
     ranked = filter_and_rank(ideas)
 
+    # Always write the file, even when empty -- otherwise a failed run leaves
+    # downstream agents (and the dashboard) silently reading a stale
+    # keywords.json left over from a previous, unrelated business description.
     os.makedirs("output", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         json.dump(ranked, f, indent=2)

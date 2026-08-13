@@ -23,6 +23,7 @@ from agents import ad_writing_agent
 from agents import campaign_agent
 from agents import competitor_agent
 from agents import description_validator
+from agents import intake_agent
 from agents import keyword_agent
 from agents import negative_keyword_agent
 from agents import reporting_agent
@@ -100,5 +101,5 @@ def run_pipeline(business_description, use_google_ads=False):
 
 if __name__ == "__main__":
     use_ads = "--google-ads" in sys.argv
-    description = input("Enter your business description: ")
+    description = intake_agent.collect_business_context()
     run_pipeline(description, use_google_ads=use_ads)
