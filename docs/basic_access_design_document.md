@@ -2,7 +2,10 @@
 
 **Prepared for:** Google Ads API Basic Access reapplication (New Token Form)
 **Developer token:** [see google-ads.yaml -- not included here, test-tier, pending Basic Access]
-**Date:** [fill in submission date]
+**Date:** 2026-10-16
+**Live demo:** https://synaptic-ads.streamlit.app
+**Company / tool name:** Synaptic
+**Contact:** sashaheer.ali10@gmail.com
 
 ---
 
@@ -138,13 +141,40 @@ studio):
 
 ## 6. Intended Use / Business Model
 
-*(Fill in specific to your actual answers on the New Token Form — keep this
-consistent with the form itself; don't just restate the old rejected answers.)*
+Synaptic is built by a team of four final-year university students as a Final
+Year Project. It is not yet a commercial product.
+
+**Who uses it:** small and local business owners in Pakistan (for example
+plumbers, clinics, gyms, studios) who have no marketing team and cannot afford
+an agency. The owner only describes their business; Synaptic builds the campaign.
+
+**What we use the API for:**
+- Creating and managing Search campaigns in Google Ads accounts that the
+  business owner (or our team, for demos) owns and has authorized.
+- Reading real keyword volume with Keyword Planner, so keyword choices are based
+  on real advertiser data instead of only Google Trends.
+- Reading campaign performance for the Reporting tab, instead of simulated numbers.
+
+**What we do not do:**
+- We do not resell or share Google Ads data with third parties.
+- We do not create campaigns without the owner's action: every campaign is
+  created PAUSED and the push is an explicit button click.
+- We do not manage accounts we do not have authorization for.
+
+**Business model:** none at this stage. After the Final Year Project, the team
+may offer Synaptic to small businesses; any such use would follow the Google Ads
+API Terms and Required Minimum Functionality policies.
+
+**Live demo:** https://synaptic-ads.streamlit.app (the dashboard runs the full
+agent pipeline; the Google Ads push is shown against a test account).
 
 ---
 
 ## 7. Applicant / Contact Consistency
 
-Domain, company name, and contact email used in this application and in the
-Developer Details section are: [fill in — must match; see checklist note about
-fixing the previous `shahroz.com` mismatch].
+- **Company / tool name:** Synaptic
+- **Website:** https://synaptic-ads.streamlit.app
+- **Contact email:** sashaheer.ali10@gmail.com
+
+These three values must be identical in the New Token Form and in the Google Ads
+API Center "Developer details" section. The old `shahroz.com` domain is no longer used.
