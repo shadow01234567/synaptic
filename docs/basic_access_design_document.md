@@ -3,6 +3,7 @@
 **Prepared for:** Google Ads API Basic Access reapplication (New Token Form)
 **Developer token:** [see google-ads.yaml -- not included here, test-tier, pending Basic Access]
 **Date:** 2026-10-16
+**Website:** https://aisnaptic.com
 **Live demo:** https://synaptic-ads.streamlit.app
 **Company / tool name:** Synaptic
 **Contact:** sashaheer.ali10@gmail.com
@@ -173,7 +174,8 @@ agent pipeline; the Google Ads push is shown against a test account).
 ## 7. Applicant / Contact Consistency
 
 - **Company / tool name:** Synaptic
-- **Website:** https://synaptic-ads.streamlit.app
+- **Website:** https://aisnaptic.com (privacy: /privacy.html, terms: /terms.html; domain verified in Google Search Console)
+- **Live demo:** https://synaptic-ads.streamlit.app
 - **Contact email:** sashaheer.ali10@gmail.com
 
 These three values must be identical in the New Token Form and in the Google Ads
